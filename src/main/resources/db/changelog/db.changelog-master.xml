@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" logicalFilePath="db.changelog-master.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="auth-07112023-01" author="bbes">
+        <comment>Create Auth user table</comment>
+        <createSequence sequenceName="auth_user_id_seq" startValue="1" incrementBy="1" />
+        <createTable tableName="auth_user">
+            <column name="id" type="bigint" defaultValueSequenceNext="auth_user_id_seq">
+                <constraints primaryKey="true" primaryKeyName="pk_auth_user" nullable="false" />
+            </column>
+            <column name="username" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="security_question_one" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+            <column name="security_question_two" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+            <column name="security_question_three" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="session-07112023-01" author="bbes">
+        <comment>Create Session table</comment>
+        <createSequence sequenceName="session_id_seq" startValue="1" incrementBy="1" />
+        <createTable tableName="session">
+            <column name="id" type="bigint" defaultValueSequenceNext="session_id_seq">
+                <constraints primaryKey="true" primaryKeyName="pk_session" nullable="false" />
+            </column>
+            <column name="valid_until" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="auth_user_id" type="bigint">
+                <constraints nullable="false" references="auth_user(id)" foreignKeyName="fk_session_auth_user" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="initial_data-07112023-01" author="bbes">
+        <comment>Added inital data</comment>
+        <sqlFile path="sql/data.sql" relativeToChangelogFile="true" />
+    </changeSet>
+
+</databaseChangeLog>
