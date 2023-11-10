@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+// TODO: makni produkt iz url patterns - bbes
 @Configuration
 public class AuthenticationConfiguration {
 
@@ -23,7 +23,7 @@ public class AuthenticationConfiguration {
             = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new AuthenticationFilter(sessionService));
-        registrationBean.addUrlPatterns("/testAuth/*");
+        registrationBean.addUrlPatterns("/testAuth/*", "/product/**");
         registrationBean.setOrder(1);
 
         return registrationBean;

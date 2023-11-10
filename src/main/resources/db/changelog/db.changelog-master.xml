@@ -44,9 +44,24 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="initial_data-07112023-01" author="bbes">
-        <comment>Added inital data</comment>
-        <sqlFile path="sql/data.sql" relativeToChangelogFile="true" />
+    <changeSet id="product-10112023-01" author="bbes">
+        <comment>Create Product table</comment>
+        <createSequence sequenceName="product_id_seq" startValue="1" incrementBy="1" />
+        <createTable tableName="product">
+            <column name="id" type="bigint" defaultValueSequenceNext="product_id_seq">
+                <constraints primaryKey="true" primaryKeyName="pk_product" nullable="false" />
+            </column>
+            <column name="name" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+            <column name="price" type="DECIMAL(10,2)" />
+            <column name="image_name" type="varchar(256)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>
