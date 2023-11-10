@@ -64,4 +64,23 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="product-comment-10112023-01" author="">
+        <comment>Create Product comment table</comment>
+        <createSequence sequenceName="product_comment_id_seq" startValue="1" incrementBy="1" />
+        <createTable tableName="product_comment">
+            <column name="id" type="bigint" defaultValueSequenceNext="product_comment_id_seq">
+                <constraints primaryKey="true" primaryKeyName="pk_product_comment" nullable="false" />
+            </column>
+            <column name="text" type="varchar(1000)">
+                <constraints nullable="false" />
+            </column>
+            <column name="creation_date" type="datetime">
+                <constraints nullable="false" />
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints references="product(id)" foreignKeyName="fk_product_comment_product" />
+            </column>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
