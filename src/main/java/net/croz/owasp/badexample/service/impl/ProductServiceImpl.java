@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -52,6 +53,11 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
             Product.class, String.format("id=%s", id))
         );
+    }
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
     @Transactional
