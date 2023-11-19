@@ -54,7 +54,7 @@
             <column name="name" type="varchar(256)">
                 <constraints nullable="false" />
             </column>
-            <column name="description" type="varchar(256)">
+            <column name="description" type="text">
                 <constraints nullable="false" />
             </column>
             <column name="price" type="DECIMAL(10,2)" />
@@ -81,6 +81,12 @@
                 <constraints references="product(id)" foreignKeyName="fk_product_comment_product" />
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="image_data-10112023-01" author="bbes">
+        <comment>Added inital data</comment>
+        <sqlFile path="sql/product-data.sql" relativeToChangelogFile="true" />
+        <sqlFile path="sql/data.sql" relativeToChangelogFile="true" />
     </changeSet>
 
 </databaseChangeLog>
