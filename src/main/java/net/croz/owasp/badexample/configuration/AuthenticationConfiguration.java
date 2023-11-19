@@ -23,7 +23,7 @@ public class AuthenticationConfiguration {
             = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new AuthenticationFilter(sessionService));
-        registrationBean.addUrlPatterns("/testAuth/*", "/product/**");
+        registrationBean.addUrlPatterns("/testAuth/*", "/product/*");
         registrationBean.setOrder(1);
 
         return registrationBean;

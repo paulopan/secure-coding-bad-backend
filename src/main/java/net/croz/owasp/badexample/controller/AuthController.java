@@ -28,8 +28,12 @@ public class AuthController {
     public ResponseEntity<Void> loginUser(@RequestBody LoginUserCommand loginUserCommand) {
         final Session session = authService.login(loginUserCommand);
 
+        final String sessionCookie =
+            String.format("sessionId=%d; Domain=owasp-guidelines-bad.com; Path=/;", session.getId());
+
         final HttpHeaders headers = new HttpHeaders();
-        headers.add("Set-Cookie", "sessionId=" + session.getId());
+        headers.add("Set-Cookie", sessionCookie);
+        headers.add("Access-Control-Allow-Credentials", "true");
 
         return ResponseEntity.ok().headers(headers).build();
     }
