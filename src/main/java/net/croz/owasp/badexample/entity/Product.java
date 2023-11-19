@@ -39,7 +39,7 @@ public class Product {
     @OneToMany
     @JoinColumn(name = "product_id",
         foreignKey = @ForeignKey(name = "fk_product_comment_product"))
-    private List<ProductComment> productComments;
+    private List<ProductComment> comments;
 
     public Long getId() {
         return id;
@@ -73,29 +73,29 @@ public class Product {
         this.price = price;
     }
 
-    public String getProductImage() {
+    public String getImageName() {
         return imageName;
     }
 
-    public void setProductImage(String productImage) {
+    public void setImageName(String productImage) {
         this.imageName = productImage;
     }
 
-    public List<ProductComment> getProductComments() {
-        if (this.productComments == null) {
+    public List<ProductComment> getComments() {
+        if (this.comments == null) {
             return Collections.emptyList();
         } else {
-            return new ArrayList<>(this.productComments);
+            return new ArrayList<>(this.comments);
         }
 
     }
 
-    public void setProductComments(List<ProductComment> productComments) {
-        if (this.productComments == null) {
-            this.productComments = new ArrayList<>(productComments);
+    public void setComments(List<ProductComment> comments) {
+        if (this.comments == null) {
+            this.comments = new ArrayList<>(comments);
         } else {
-            this.productComments.clear();
-            this.productComments.addAll(productComments);
+            this.comments.clear();
+            this.comments.addAll(comments);
         }
 
     }
