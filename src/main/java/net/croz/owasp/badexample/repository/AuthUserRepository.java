@@ -2,6 +2,7 @@ package net.croz.owasp.badexample.repository;
 
 import net.croz.owasp.badexample.entity.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,9 +22,12 @@ public class AuthUserRepository {
     public Optional<AuthUser> getAuthUserByUsername(String username) {
         final String query = "SELECT * FROM auth_user WHERE username = '" + username + "'";
 
-        final AuthUser authUser = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(AuthUser.class));
-
-        return Optional.ofNullable(authUser);
+        try {
+            final AuthUser authUser = jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(AuthUser.class));
+            return Optional.of(authUser);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public void updateAuthPassword(AuthUser authUser) {

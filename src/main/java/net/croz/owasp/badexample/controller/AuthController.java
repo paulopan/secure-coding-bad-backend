@@ -1,6 +1,7 @@
 package net.croz.owasp.badexample.controller;
 
 import net.croz.owasp.badexample.entity.Session;
+import net.croz.owasp.badexample.exception.AuthInvalidCredentialException;
 import net.croz.owasp.badexample.service.AuthService;
 import net.croz.owasp.badexample.service.command.LoginUserCommand;
 import net.croz.owasp.badexample.service.command.ResetPasswordCommand;
@@ -25,7 +26,8 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Void> loginUser(@RequestBody LoginUserCommand loginUserCommand) {
+    public ResponseEntity<Void> loginUser(@RequestBody LoginUserCommand loginUserCommand)
+        throws AuthInvalidCredentialException {
         final Session session = authService.login(loginUserCommand);
 
         final String sessionCookie =
@@ -39,7 +41,8 @@ public class AuthController {
     }
 
     @PostMapping("/password-reset")
-    public void resetPassword(@RequestBody ResetPasswordCommand resetPasswordCommand) {
+    public void resetPassword(@RequestBody ResetPasswordCommand resetPasswordCommand)
+        throws AuthInvalidCredentialException {
         authService.resetPassword(resetPasswordCommand);
     }
 }

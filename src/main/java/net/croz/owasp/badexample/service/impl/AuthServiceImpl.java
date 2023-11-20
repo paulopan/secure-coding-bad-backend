@@ -2,8 +2,7 @@ package net.croz.owasp.badexample.service.impl;
 
 import net.croz.owasp.badexample.entity.AuthUser;
 import net.croz.owasp.badexample.entity.Session;
-import net.croz.owasp.badexample.exception.AuthInvalidPasswordException;
-import net.croz.owasp.badexample.exception.AuthInvalidUsernameException;
+import net.croz.owasp.badexample.exception.AuthInvalidCredentialException;
 import net.croz.owasp.badexample.exception.AuthUnAuthorizedException;
 import net.croz.owasp.badexample.repository.AuthUserRepository;
 import net.croz.owasp.badexample.service.AuthService;
@@ -31,13 +30,15 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Session login(LoginUserCommand loginUserCommand) {
+    public Session login(LoginUserCommand loginUserCommand) throws AuthInvalidCredentialException {
         final AuthUser existingUser = authUserRepository.getAuthUserByUsername(loginUserCommand.getUsername())
-            .orElseThrow(() -> new AuthInvalidUsernameException(loginUserCommand.getUsername()));
+            .orElseThrow(() -> new AuthInvalidCredentialException(loginUserCommand, "LoginUserCommand", "username",
+                "Username does not exist."));
 
         final String md5Hex = DigestUtils.md5Hex(loginUserCommand.getPassword());
         if (!Objects.equals(existingUser.getPassword(), md5Hex)) {
-            throw new AuthInvalidPasswordException(loginUserCommand.getPassword());
+            throw new AuthInvalidCredentialException(loginUserCommand, "LoginUserCommand", "password",
+                "Password is not correct.");
         }
 
         final long validDays = loginUserCommand.getRememberMe() ? 30 : 10;
@@ -47,9 +48,10 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void resetPassword(ResetPasswordCommand resetPasswordCommand) {
+    public void resetPassword(ResetPasswordCommand resetPasswordCommand) throws AuthInvalidCredentialException {
         final AuthUser existingUser = authUserRepository.getAuthUserByUsername(resetPasswordCommand.getUsername())
-            .orElseThrow(() -> new AuthInvalidUsernameException(resetPasswordCommand.getUsername()));
+            .orElseThrow(() -> new AuthInvalidCredentialException(resetPasswordCommand, "ResetPasswordCommand", "username",
+                    "Username does not exist."));
 
         final boolean questionOne =
             Objects.equals(existingUser.getSecurityQuestionOne(), resetPasswordCommand.getQuestionOneAnswer());
