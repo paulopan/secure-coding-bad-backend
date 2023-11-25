@@ -28,6 +28,32 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="user-seller-07112023-02" author="bbes">
+        <comment>Create User seller table</comment>
+        <createTable tableName="user_seller">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_seller" references="auth_user(id)"
+                             foreignKeyName="fk_user_seller_user" />
+            </column>
+            <column name="oib" type="VARCHAR(11)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="user_buyer-07112023-03" author="bbes">
+        <comment>Create User buyer table</comment>
+        <createTable tableName="user_buyer">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_buyer" references="auth_user(id)"
+                             foreignKeyName="fk_user_buyer_user" />
+            </column>
+            <column name="address" type="VARCHAR(50)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="session-07112023-01" author="bbes">
         <comment>Create Session table</comment>
         <createSequence sequenceName="session_id_seq" startValue="1" incrementBy="1" />
@@ -61,10 +87,13 @@
             <column name="image_name" type="varchar(256)">
                 <constraints nullable="false" />
             </column>
+            <column name="seller_id" type="bigint">
+                <constraints nullable="false" references="user_seller(id)" foreignKeyName="fk_product_user_seller" />
+            </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="product-comment-10112023-01" author="">
+    <changeSet id="product-comment-10112023-01" author="bbes">
         <comment>Create Product comment table</comment>
         <createSequence sequenceName="product_comment_id_seq" startValue="1" incrementBy="1" />
         <createTable tableName="product_comment">
@@ -80,13 +109,16 @@
             <column name="product_id" type="bigint">
                 <constraints references="product(id)" foreignKeyName="fk_product_comment_product" />
             </column>
+            <column name="creator_id" type="bigint">
+                <constraints references="user_buyer(id)" foreignKeyName="fk_product_comment_user_buyer" />
+            </column>
         </createTable>
     </changeSet>
 
     <changeSet id="image_data-10112023-01" author="bbes">
         <comment>Added inital data</comment>
-        <sqlFile path="sql/product-data.sql" relativeToChangelogFile="true" />
         <sqlFile path="sql/data.sql" relativeToChangelogFile="true" />
+        <sqlFile path="sql/product-data.sql" relativeToChangelogFile="true" />
     </changeSet>
 
 </databaseChangeLog>

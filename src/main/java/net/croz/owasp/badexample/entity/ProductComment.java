@@ -35,6 +35,11 @@ public class ProductComment {
         foreignKey = @ForeignKey(name = "fk_product_comment_product"))
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id",
+        foreignKey = @ForeignKey(name = "fk_product_comment_user_buyer"))
+    private UserBuyer creator;
+
     public Long getId() {
         return id;
     }
@@ -66,6 +71,14 @@ public class ProductComment {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public UserBuyer getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserBuyer creator) {
+        this.creator = creator;
     }
 
 }
