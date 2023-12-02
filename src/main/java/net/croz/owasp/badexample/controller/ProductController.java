@@ -1,12 +1,15 @@
 package net.croz.owasp.badexample.controller;
 
 import net.croz.owasp.badexample.entity.AuthUser;
+import net.croz.owasp.badexample.entity.Order;
 import net.croz.owasp.badexample.entity.Product;
 import net.croz.owasp.badexample.entity.ProductComment;
 import net.croz.owasp.badexample.entity.UserBuyer;
 import net.croz.owasp.badexample.service.AuthService;
+import net.croz.owasp.badexample.service.OrderService;
 import net.croz.owasp.badexample.service.ProductService;
 import net.croz.owasp.badexample.service.StorageService;
+import net.croz.owasp.badexample.service.command.CreateOrderCommand;
 import net.croz.owasp.badexample.service.command.CreateProductCommand;
 import net.croz.owasp.badexample.service.command.CreateProductCommentCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,12 +38,16 @@ public class ProductController {
     private final ProductService productService;
     private final StorageService storageService;
 
+    private final OrderService orderService;
+
     private final AuthService authService;
 
     @Autowired
-    public ProductController(ProductService productService, StorageService storageService, AuthService authService) {
+    public ProductController(ProductService productService, StorageService storageService, OrderService orderService,
+        AuthService authService) {
         this.productService = productService;
         this.storageService = storageService;
+        this.orderService = orderService;
         this.authService = authService;
     }
 
@@ -56,6 +64,15 @@ public class ProductController {
     @GetMapping
     public List<Product> findAll() {
         return productService.findAll();
+    }
+
+    @PostMapping("/{id}/order")
+    public Order placeOrder(
+        @PathVariable Long id,
+        @RequestBody @Valid CreateOrderCommand createOrderCommand,
+        @RequestAttribute("authUser") AuthUser authUser) {
+        final UserBuyer userBuyer = (UserBuyer)authService.getUserByType(authUser);
+        return orderService.placeOrder(id, createOrderCommand, userBuyer);
     }
 
     @PostMapping("/{id}/comment")
