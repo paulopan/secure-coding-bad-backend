@@ -3,6 +3,7 @@ package net.croz.owasp.badexample.service.impl;
 
 import net.croz.owasp.badexample.entity.Product;
 import net.croz.owasp.badexample.entity.ProductComment;
+import net.croz.owasp.badexample.entity.UserBuyer;
 import net.croz.owasp.badexample.exception.EntityNotFoundException;
 import net.croz.owasp.badexample.repository.ProductCommentRepository;
 import net.croz.owasp.badexample.repository.ProductRepository;
@@ -62,13 +63,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductComment createComment(Long id, CreateProductCommentCommand createProductCommentCommand) {
+    public ProductComment createComment(Long id, CreateProductCommentCommand createProductCommentCommand, UserBuyer userBuyer) {
         final Product product = findById(id);
 
         final ProductComment productComment = new ProductComment();
         productComment.setText(createProductCommentCommand.getText());
         productComment.setCreationDate(LocalDateTime.now());
         productComment.setProduct(product);
+        productComment.setCreator(userBuyer);
 
         return productCommentRepository.save(productComment);
     }

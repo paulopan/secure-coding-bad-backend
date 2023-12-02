@@ -1,7 +1,10 @@
 package net.croz.owasp.badexample.controller;
 
+import net.croz.owasp.badexample.entity.AuthUser;
 import net.croz.owasp.badexample.entity.Product;
 import net.croz.owasp.badexample.entity.ProductComment;
+import net.croz.owasp.badexample.entity.UserBuyer;
+import net.croz.owasp.badexample.service.AuthService;
 import net.croz.owasp.badexample.service.ProductService;
 import net.croz.owasp.badexample.service.StorageService;
 import net.croz.owasp.badexample.service.command.CreateProductCommand;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,10 +34,13 @@ public class ProductController {
     private final ProductService productService;
     private final StorageService storageService;
 
+    private final AuthService authService;
+
     @Autowired
-    public ProductController(ProductService productService, StorageService storageService) {
+    public ProductController(ProductService productService, StorageService storageService, AuthService authService) {
         this.productService = productService;
         this.storageService = storageService;
+        this.authService = authService;
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -53,8 +60,10 @@ public class ProductController {
 
     @PostMapping("/{id}/comment")
     public ProductComment createComment(@PathVariable Long id,
-        @RequestBody CreateProductCommentCommand createProductCommentCommand) {
-        return productService.createComment(id, createProductCommentCommand);
+        @RequestBody CreateProductCommentCommand createProductCommentCommand,
+        @RequestAttribute("authUser") AuthUser authUser) {
+        final UserBuyer userBuyer = (UserBuyer)authService.getUserByType(authUser);
+        return productService.createComment(id, createProductCommentCommand, userBuyer);
     }
 
     @GetMapping("/files/{filename:.+}")

@@ -2,6 +2,8 @@ package net.croz.owasp.badexample.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +38,10 @@ public class AuthUser {
 
     @Column(name = "security_question_three")
     private String securityQuestionThree;
+
+    @Column(name = "user_type")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     public Long getId() {
         return id;
@@ -83,6 +89,14 @@ public class AuthUser {
 
     public void setSecurityQuestionThree(String securityQuestionThree) {
         this.securityQuestionThree = securityQuestionThree;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
     }
 
 }

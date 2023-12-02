@@ -2,9 +2,12 @@ package net.croz.owasp.badexample.service.impl;
 
 import net.croz.owasp.badexample.entity.AuthUser;
 import net.croz.owasp.badexample.entity.Session;
+import net.croz.owasp.badexample.entity.UserType;
 import net.croz.owasp.badexample.exception.AuthInvalidCredentialException;
 import net.croz.owasp.badexample.exception.AuthUnAuthorizedException;
 import net.croz.owasp.badexample.repository.AuthUserRepository;
+import net.croz.owasp.badexample.repository.UserBuyerRepository;
+import net.croz.owasp.badexample.repository.UserSellerRepository;
 import net.croz.owasp.badexample.service.AuthService;
 import net.croz.owasp.badexample.service.SessionService;
 import net.croz.owasp.badexample.service.command.LoginUserCommand;
@@ -21,11 +24,18 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthUserRepository authUserRepository;
 
+    private final UserSellerRepository userSellerRepository;
+
+    private final UserBuyerRepository userBuyerRepository;
+
     private final SessionService sessionService;
 
     @Autowired
-    public AuthServiceImpl(AuthUserRepository authUserRepository, SessionService sessionService) {
+    public AuthServiceImpl(AuthUserRepository authUserRepository, UserSellerRepository userSellerRepository,
+        UserBuyerRepository userBuyerRepository, SessionService sessionService) {
         this.authUserRepository = authUserRepository;
+        this.userSellerRepository = userSellerRepository;
+        this.userBuyerRepository = userBuyerRepository;
         this.sessionService = sessionService;
     }
 
@@ -68,6 +78,15 @@ public class AuthServiceImpl implements AuthService {
         final String md5Hex = DigestUtils.md5Hex(resetPasswordCommand.getPassword());
         existingUser.setPassword(md5Hex);
         authUserRepository.updateAuthPassword(existingUser);
+    }
+
+    @Override
+    public AuthUser getUserByType(AuthUser authUser) {
+        if (authUser.getUserType() == UserType.BUYER) {
+            return userBuyerRepository.findById(authUser.getId()).get();
+        }
+
+        return userSellerRepository.findById(authUser.getId()).get();
     }
 
 }

@@ -16,6 +16,9 @@
             <column name="password" type="varchar(256)">
                 <constraints nullable="false"/>
             </column>
+            <column name="user_type" type="varchar(256)">
+                <constraints nullable="false"/>
+            </column>
             <column name="security_question_one" type="varchar(256)">
                 <constraints nullable="false" />
             </column>
