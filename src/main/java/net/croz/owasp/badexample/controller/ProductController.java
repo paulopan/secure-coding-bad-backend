@@ -5,6 +5,7 @@ import net.croz.owasp.badexample.entity.Order;
 import net.croz.owasp.badexample.entity.Product;
 import net.croz.owasp.badexample.entity.ProductComment;
 import net.croz.owasp.badexample.entity.UserBuyer;
+import net.croz.owasp.badexample.entity.UserSeller;
 import net.croz.owasp.badexample.service.AuthService;
 import net.croz.owasp.badexample.service.OrderService;
 import net.croz.owasp.badexample.service.ProductService;
@@ -52,8 +53,11 @@ public class ProductController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Product createProduct(@ModelAttribute CreateProductCommand createProductCommand) {
-        return productService.create(createProductCommand);
+    public Product createProduct(
+        @ModelAttribute CreateProductCommand createProductCommand,
+        @RequestAttribute("authUser") AuthUser authUser
+    ) {
+        return productService.create(createProductCommand, (UserSeller) authUser);
     }
 
     @GetMapping("/{id}")

@@ -4,6 +4,7 @@ package net.croz.owasp.badexample.service.impl;
 import net.croz.owasp.badexample.entity.Product;
 import net.croz.owasp.badexample.entity.ProductComment;
 import net.croz.owasp.badexample.entity.UserBuyer;
+import net.croz.owasp.badexample.entity.UserSeller;
 import net.croz.owasp.badexample.exception.EntityNotFoundException;
 import net.croz.owasp.badexample.repository.ProductCommentRepository;
 import net.croz.owasp.badexample.repository.ProductRepository;
@@ -37,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public Product create(CreateProductCommand createProductCommand) {
+    public Product create(CreateProductCommand createProductCommand, UserSeller userSeller) {
         final String productImage = storageService.store(createProductCommand.getImage());
 
         final Product product = new Product();
@@ -45,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(createProductCommand.getDescription());
         product.setPrice(createProductCommand.getPrice());
         product.setImageName(productImage);
+        product.setSeller(userSeller);
 
         return productRepository.save(product);
     }
