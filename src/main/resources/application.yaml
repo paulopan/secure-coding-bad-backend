@@ -12,6 +12,7 @@ spring:
     console:
       enabled: true
 server:
+  server-header: Spring Boot 2.7.17, Tomcat 9.0.82
   servlet:
     context-path: "/bad-example"
   port: 8081
