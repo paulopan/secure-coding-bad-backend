@@ -12,6 +12,7 @@ import net.croz.owasp.badexample.service.message.OrderMessage;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -54,6 +55,11 @@ public class OrderServiceImpl implements OrderService {
         messagingService.sendMessage(topic, orderMessage);
 
         return savedOrder;
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return orderRepository.findAll();
     }
 
 }
