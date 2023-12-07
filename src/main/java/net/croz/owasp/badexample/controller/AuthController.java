@@ -34,7 +34,7 @@ public class AuthController {
         final Session session = authService.login(loginUserCommand);
 
         final String sessionCookie =
-            String.format("sessionId=%d; Domain=owasp-guidelines-bad.com; Path=/;", session.getId());
+            String.format("sessionId=%d; Domain=owasp-guidelines-bad.m8c.io; Path=/;", session.getId());
 
         final HttpHeaders headers = new HttpHeaders();
         headers.add("Set-Cookie", sessionCookie);
