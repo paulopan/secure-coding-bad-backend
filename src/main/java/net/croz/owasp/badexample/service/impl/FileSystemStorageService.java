@@ -20,6 +20,8 @@ import java.util.Objects;
 @Service
 public class FileSystemStorageService implements StorageService {
 
+    // TODO: Ovaj file path - bbes
+    // OWASP[184]
     private final Path rootLocation = Paths.get("C:\\Users\\bbes\\projekti\\owasp-guidelines-projects\\bad-example\\src\\main\\resources");
 
     @Override

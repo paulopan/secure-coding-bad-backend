@@ -1,6 +1,13 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
+    # OWASP[35]
+    # OWASP[54]
+    # OWASP[135]
+    # OWASP[171]
+    # OWASP[172]
+    # OWASP[175]
+    # OWASP[178]
     username: sa
     password: password
     driverClassName: org.h2.Driver
@@ -12,6 +19,8 @@ spring:
     console:
       enabled: true
 server:
+  # OWASP[107]
+  # OWASP[162]
   server-header: Spring Boot 2.7.17, Tomcat 9.0.82
   servlet:
     context-path: "/bad-example"

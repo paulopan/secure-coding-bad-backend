@@ -20,6 +20,10 @@ public class OrdersController {
         this.orderService = orderService;
     }
 
+    // OWASP[84]
+    // OWASP[85]
+    // OWASP[87]
+    // OWASP[88]
     @GetMapping
     public List<Order> findAll() {
         return orderService.findAll();

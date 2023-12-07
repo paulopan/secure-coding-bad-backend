@@ -33,6 +33,11 @@ public class AuthController {
         throws AuthInvalidCredentialException {
         final Session session = authService.login(loginUserCommand);
 
+        // OWASP[60]
+        // OWASP[104]
+        // OWASP[75]
+        // OWASP[76]
+        // OWASP[73]
         final String sessionCookie =
             String.format("sessionId=%d; Domain=owasp-guidelines-bad.m8c.io; Path=/;", session.getId());
 

@@ -45,12 +45,14 @@ public class AuthServiceImpl implements AuthService {
             .orElseThrow(() -> new AuthInvalidCredentialException(loginUserCommand, "LoginUserCommand", "username",
                 "Username does not exist."));
 
+        // OWASP[30]
         final String md5Hex = DigestUtils.md5Hex(loginUserCommand.getPassword());
         if (!Objects.equals(existingUser.getPassword(), md5Hex)) {
             throw new AuthInvalidCredentialException(loginUserCommand, "LoginUserCommand", "password",
                 "Password is not correct.");
         }
 
+        // OWASP[51]
         final long validDays = loginUserCommand.getRememberMe() ? 30 : 10;
         final LocalDateTime validUntil = LocalDateTime.now().plusDays(validDays);
 
