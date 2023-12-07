@@ -19,7 +19,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
-            .addEndpoint("/good-example-stomp");
+            .addEndpoint("/bad-example-stomp");
     }
 
 }
