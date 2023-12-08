@@ -31,4 +31,9 @@ VALUES
     (10, '12398765432');
 
 INSERT INTO auth_user(username, user_type, password, security_question_one, security_question_two, security_question_three)
+VALUES ('zmilanovic', 'BUYER', '4ebada80852a85c64ac501b6888b63e8', 'Zagreb', 'Centar za upravu i pravosuđe', 'Nova godina' );
+
+INSERT INTO user_buyer(id, address) VALUES (11, 'pantovčak 241');
+
+INSERT INTO auth_user(username, user_type, password, security_question_one, security_question_two, security_question_three)
     VALUES ('admin', 'ADMIN', 'e3274be5c857fb42ab72d786e281b4b8', 'Osijek', 'Srednja škola', 'Škola');
