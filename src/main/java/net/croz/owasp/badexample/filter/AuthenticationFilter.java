@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// TODO: Stavi Usera u context (app_user)
 public class AuthenticationFilter implements Filter {
 
     private final static String SESSION_COOKIE = "sessionId";
