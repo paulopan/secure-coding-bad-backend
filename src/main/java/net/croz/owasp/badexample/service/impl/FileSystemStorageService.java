@@ -22,8 +22,8 @@ import java.util.Objects;
 public class FileSystemStorageService implements StorageService {
 
     // OWASP[184]
-    private final Path rootLocation = Paths.get("owasp-guidelines-bad-backend" + File.separator + "src" + File.separator + "main" + File.separator + "resources");
-    // private final Path rootLocation = Paths.get("src" + File.separator + "main" + File.separator + "resources");
+    // private final Path rootLocation = Paths.get("owasp-guidelines-bad-backend" + File.separator + "src" + File.separator + "main" + File.separator + "resources");
+    private final Path rootLocation = Paths.get("src" + File.separator + "main" + File.separator + "resources");
 
     @Override
     public String store(MultipartFile file) {
