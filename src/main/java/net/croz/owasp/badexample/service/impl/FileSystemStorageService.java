@@ -8,6 +8,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -21,7 +22,8 @@ import java.util.Objects;
 public class FileSystemStorageService implements StorageService {
 
     // OWASP[184]
-    private final Path rootLocation = Paths.get("src\\main\\resources");
+    private final Path rootLocation = Paths.get("owasp-guidelines-bad-backend" + File.separator + "src" + File.separator + "main" + File.separator + "resources");
+    // private final Path rootLocation = Paths.get("src" + File.separator + "main" + File.separator + "resources");
 
     @Override
     public String store(MultipartFile file) {
